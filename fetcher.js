@@ -7,8 +7,6 @@
 //
 //  REQUIRES
 //
-
-
 // ! we must npm init and then npm install request to use HTTP TCP library:
 const request = require('request');
 const fs = require('fs'); // node FILE SERVICES
@@ -22,16 +20,24 @@ const fetcher = function() {
   // argv to read input
   //
   let inputWords = process.argv.slice(2);
-  console.log(inputWords);
-
+  
   // todo need valid URL for input data
   // todo need filename for output data
 
+  if(inputWords.length < 2) {
+    console.log("ERROR: need input URL and output filename");
+    console.log("EXAMPLE: node fetcher.js https://www.google.com/ myoutputfile.txt");
+    console.log();
+    return;
+  }
+  
   //
   // fetch URL data
   // todo what if bad return?  give user errors
   //
-  request('http://www.google.com', (error, response, body) => {
+  
+  // request('http://www.google.com', (error, response, body) => {
+  request(inputWords[0], (error, response, body) => {
     console.log('error:', error); // Print the error if one occurred
     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
     // console.log('body:', body); // Print the HTML for the Google homepage.
@@ -44,6 +50,10 @@ const fetcher = function() {
   });
 };
 
+
+//
+// saveFile(filename to save, content to save);
+//
 const saveFile = function(filename, content) {
   // save to local file
   // research: https://nodejs.dev/learn/writing-files-with-nodejs
